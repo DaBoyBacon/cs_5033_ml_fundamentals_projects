@@ -36,15 +36,15 @@ def trainANN(dimensions: int, csv_name: str, output_location: str, loss_rate = 0
     training, validation, test = parser.parse(csv_name)
     print("Parser completed: ", csv_name)
     
-    ann = list()
+    ann = Network()
     for i in range(dimensions):
         curr_node = list()
-        for i in range(dimensions + 1):
+        for j in range(dimensions + 1):
             curr_node.append(random.uniform(-1, 1))
         if i < dimensions - 1:
-            ann.addNeuron(neuron(curr_node), True)
+            ann.addNeuron(curr_node, True)
         else:
-            ann.addNeuron(neuron(curr_node), False)
+            ann.addNeuron(curr_node, False)
 
     
     eval = 0    
