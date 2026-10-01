@@ -7,13 +7,6 @@ def is_moon(csv_file: str):
         return True
     return False
 
-
-def is_2D(csv_file: str):
-    if "2D" in csv_file:
-        return True
-    return False
-
-
 class Parser:
     TRAIN_SPLIT = 0.70
     VAL_SPLIT = 0.25
@@ -50,19 +43,14 @@ class Parser:
         self.data = rows
 
         self.moons = is_moon(self.csv_file)
-        self.dimension = 2 if is_2D(self.csv_file) else 3
-
+        self.dimension = len(rows[0]) // 2
+    
     def _extract(self):
         d = self.dimension
         self.points = []
         for row in self.data:
-            first = row[:d]
-            second = row[d:]
-            if d == 2:
-                first = first + [0.0]
-                second = second + [0.0]
-            self.points.append(first)
-            self.points.append(second)
+            self.points.append(row[:d]    + [0.0])   # class 0
+            self.points.append(row[d:2*d] + [1.0])   # class 1
 
     def _split(self):
         points = self.points[:]
