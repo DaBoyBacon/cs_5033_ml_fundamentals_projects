@@ -45,6 +45,7 @@ class Network:
     def resetNeurons(self, neuron_list):
         self.output_layer = neuron_list.pop()
         self.hidden_layers = list()
+
         for n in neuron_list:
             self.hidden_layers.append(n)
         return
@@ -52,17 +53,17 @@ class Network:
 
 
     def outputWeights(self, csv_name):
-        out_location = csv_name[-4]
+        out_location = csv_name[:-4]
         out_location += "_weights.csv"
-        line = list()
-        for n in self.hidden_layers:
-            for w in n.getWeights():
-                line.append(w)
+        
 
         with open(out_location, mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
-            writer.writerow(line)
-            writer.writerow(self.output_layer.getWeights())
+            for n in self.hidden_layers:
+                writer.writerow(n.get_weights())
+            writer.writerow(self.output_layer.get_weights())
+
+        print(self.hidden_layers)
 
         return
 

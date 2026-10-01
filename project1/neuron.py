@@ -43,10 +43,10 @@ class Neuron:
         self.net = bias + weighted_sum
 
         if self.hidden:
-            self.output = self.net
+            self.output = sigmoid(self.net)
 
         else:
-            self.output = sigmoid(self.net)
+            self.output = 1 if sigmoid(self.net) > 0.5 else 0
 
         return self.output
 
