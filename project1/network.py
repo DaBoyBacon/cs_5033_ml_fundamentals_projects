@@ -1,4 +1,5 @@
-import neuron
+from neuron import Neuron
+import csv
 
 class Network:
 
@@ -13,9 +14,9 @@ class Network:
             if len(self.hidden_layers) == self.dimensions:
                 print("Layers already full")
                 return
-            self.hidden_layers.append(neuron(weights, isHidden))
+            self.hidden_layers.append(Neuron(weights, isHidden))
         elif not self.output_layer:
-                self.output_layer = neuron(weights, isHidden)
+                self.output_layer = Neuron(weights, isHidden)
         else:
             print("output layer already full")
             return
@@ -34,6 +35,36 @@ class Network:
 
             return output
 
+    def getNeurons(self):
+        output = list()
+        for neuron in self.hidden_layers:
+            output.append(neuron)
+        output.append(self.output_layer)
+        return output
+
+    def resetNeurons(self, neuron_list):
+        self.output_layer = neuron_list.pop()
+        self.hidden_layers = list()
+        for n in neuron_list:
+            self.hidden_layers.append(n)
+        return
+
+
+
+    def outputWeights(self, csv_name):
+        out_location = csv_name[-4]
+        out_location += "_weights.csv"
+        line = list()
+        for n in self.hidden_layers:
+            for w in n.getWeights():
+                line.append(w)
+
+        with open(out_location, mode='w', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            writer.writerow(line)
+            writer.writerow(self.output_layer.getWeights())
+
+        return
 
 
         

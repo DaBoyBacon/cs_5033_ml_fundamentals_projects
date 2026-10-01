@@ -1,15 +1,18 @@
-# import parser
-# import neuron
+from parser import Parser
 import random
+from network import Network
 
 # Helper function: Coordinate the updating of weights
-def update_weights(ann: list, point: list, loss_rate):
+def update_weights(ann: Network, point: list, loss_rate):
     curr_loss = 0
-    for i in range(len(ann) - 1, -1, -1):
-        if i == len(ann) - 1:
-            loss_list, ann[i] = update_weight_output(ann[i], point, loss_rate)
+    annList = ann.getNeurons()
+    for i in range(len(annList) - 1, -1, -1):
+        if i == len(annList) - 1:
+            loss_list, annList[i] = update_weight_output(annList[i], point, loss_rate)
         else:
-            ann[i] = update_weight_hidden(loss_list.pop(), ann[i], point, loss_rate)
+            annList[i] = update_weight_hidden(loss_list.pop(), annList[i], point, loss_rate)
+
+    ann.resetNeurons(annList)
 
 # Helper function: Update weights of end neuron
 def update_weight_output(neuron, point, loss_rate):
@@ -33,7 +36,7 @@ def update_weight_hidden(loss_val, neuron, point, loss_rate):
 
 
 def trainANN(dimensions: int, csv_name: str, output_location: str, loss_rate = 0.4):
-    training, validation, test = parser.parse(csv_name)
+    training, validation, test = Parser.parse(csv_name)
     print("Parser completed: ", csv_name)
     
     ann = Network()
@@ -78,4 +81,3 @@ def trainANN(dimensions: int, csv_name: str, output_location: str, loss_rate = 0
 
 
     
-        
