@@ -45,6 +45,7 @@ class Network:
     def resetNeurons(self, neuron_list):
         self.output_layer = neuron_list.pop()
         self.hidden_layers = list()
+
         for n in neuron_list:
             self.hidden_layers.append(n)
         return

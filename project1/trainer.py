@@ -26,9 +26,6 @@ def update_weight_output(neuron, point, loss_rate, output):
             loss = loss_rate * (point[len(point) - 1] - output)
             loss_list.append(loss)
 
-    print(neuron.get_weights())
-    print("--------------")
-    print(loss_list)
     neuron.set_weights(loss_list)
     return loss_list, neuron
 
@@ -46,17 +43,17 @@ def update_weight_hidden(loss_val, neuron, point, loss_rate):
     return neuron
 
 
-def trainANN(dimensions: int, csv_name: str, loss_rate = 0.8):
+def trainANN(dimensions: int, csv_name: str, loss_rate = 0.01):
     p = Parser()
     training, validation, test = p.parse(csv_name)
     print("Parser completed: ", csv_name)
     
     ann = Network(dimensions)
-    for i in range(dimensions):
+    for i in range(dimensions + 1):
         curr_node = list()
         for j in range(dimensions + 1):
             curr_node.append(random.uniform(-1, 1))
-        if i < dimensions - 1:
+        if i < dimensions:
             ann.add_neuron(curr_node, True)
         else:
             ann.add_neuron(curr_node, False)
