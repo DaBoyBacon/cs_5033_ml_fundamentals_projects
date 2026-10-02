@@ -43,7 +43,7 @@ def update_weight_hidden(loss_val, neuron, point, loss_rate):
     return neuron
 
 
-def trainANN(dimensions: int, csv_name: str, loss_rate = 0.01):
+def trainANN(dimensions: int, csv_name: str, loss_rate = 0.001):
     p = Parser()
     training, validation, test = p.parse(csv_name)
     print("Parser completed: ", csv_name)
@@ -61,7 +61,8 @@ def trainANN(dimensions: int, csv_name: str, loss_rate = 0.01):
     
     eval = 0    
     # ACTUALLY TRAIN! Evaluate after every run
-    while eval <= 0.95:
+    epochs = 0
+    while eval <= 0.85 and epochs < 150:
         random.shuffle(training)
         curr_point = training.pop(0)
         update_weights(ann, curr_point, loss_rate)
@@ -72,6 +73,9 @@ def trainANN(dimensions: int, csv_name: str, loss_rate = 0.01):
             if ann.run(point) == point[len(point) - 1]:
                 eval += 1
         eval = eval / len(validation)
+        epochs += 1 / len(training)
+        print(epochs)
+    print("Ran over ", epochs, " epochs")
 
     
 
@@ -89,5 +93,7 @@ def trainANN(dimensions: int, csv_name: str, loss_rate = 0.01):
     return confidence_score
 
 
+
+
     
-trainANN(2, "project1\\Data\\Gaussian 2D Narrow.csv")
+trainANN(2, "project1\\Data\\Moons 2D Wide.csv")
