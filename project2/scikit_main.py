@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 from load_data import load
 import matplotlib.pyplot as plt
+import time
 
 
 from plotter import plot_regression, plot_residuals
@@ -11,7 +12,12 @@ from plotter import plot_regression, plot_residuals
 def main(csv_name):
     x, y = load(csv_name)
 
+    start_time = time.time()
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=67)
+    end_time = time.time()
+    total_time = end_time - start_time
+
+    print("Time taken to fit: ", total_time)
 
     reg = LinearRegression().fit(x_train, y_train)
 
