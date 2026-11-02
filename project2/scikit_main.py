@@ -22,11 +22,13 @@ def main(csv_name):
     reg = LinearRegression().fit(x_train, y_train)
 
     print("R^2 on the data set: ", reg.score(x_test, y_test))
+
+    print("Coefficients: ", reg.coef_)
     plot_regression(reg, x, y)
     plot_residuals(reg, x, y)
 
 
-main("project2\\Data\\2D L.csv")
+main("project2\\Data\\2D H.csv")
 
 
 
